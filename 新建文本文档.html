@@ -39,12 +39,15 @@
 </head>
 
 <body>
-    dfdfsfdfeeeee
-    <div id="ddddd" class="clz" style="color: black;">aaaaa</div>>
-    <div class="clz">vvvb</div>
-    <div>day2</div>
-    <button id="mybtn">btn</button>
+    <h1>aaa</h1>>
+   <input id="inp" oninput="change()" />
     <script>
+
+        function change(){
+           const text=document.getElementById('inp').value
+           const h11=document.getElementsByTagName('h1')[0]
+           h11.innerText=text
+        }
         // console.log(document.getElementById('mybtndfdff'))
 
         // document.getElementById('mybtn').onclick=function(){
@@ -52,7 +55,7 @@
         //     document.getElementById('ddddd').innerHTML='<div>vserwefc</div>'
         // }
 
-        alert('day2')
+        // alert('day2')
 
     </script>
 </body>
