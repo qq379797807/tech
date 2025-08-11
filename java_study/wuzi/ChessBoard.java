@@ -1,0 +1,62 @@
+package wuzi;
+
+import java.net.spi.InetAddressResolver;
+import java.util.ArrayList;
+import java.util.HashSet;
+
+public class ChessBoard {
+
+    ArrayList<ArrayList<ChessPiece>> boardCellGrid = new ArrayList<ArrayList<ChessPiece>>();
+
+    public ChessBoard() {
+        for (int i = 0; i < 5; i++) {
+            ArrayList<ChessPiece> row = new ArrayList<ChessPiece>();
+
+            for (int j = 0; j < 5; j++) {
+                row.add(null);
+            }
+
+            this.boardCellGrid.add(row);
+        }
+
+        System.out.println(this.boardCellGrid);
+
+    }
+
+    public void run(ChessPiece cp, int row, int coulnm) {
+        this.boardCellGrid.get(row).set(coulnm, cp);
+
+        System.out.println(this.boardCellGrid);
+
+    }
+
+
+    /**
+     * 
+     * @return 0 没人赢,1 黑赢,2 白赢
+     */
+    public int check() {
+
+        for (int x = 0; x < this.boardCellGrid.size(); x++) {
+
+            ArrayList<ChessPiece> row = this.boardCellGrid.get(x);
+
+            for (int i = 0; i < row.size()-2; i++) {
+                ChessPiece c1 = row.get(i);
+                ChessPiece c2 = row.get(i + 1);
+                ChessPiece c3 = row.get(i + 2);
+
+                if (c1 != null && c2 != null && c3 != null) {
+                    if (c1.type == c2.type && c1.type == c3.type) {
+                        return c1.type;
+                    }
+                }
+            }
+        }
+
+        return 0;
+
+    }
+
+
+}
