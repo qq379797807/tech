@@ -1,8 +1,7 @@
-package wuzi;
+package wuzi.piece;
 
-import java.nio.charset.CharsetEncoder;
 
-public class ChessPiece {
+public abstract class ChessPiece {
 
     // 黑子type=1
  //  ba1  2
@@ -17,3 +16,4 @@ public class ChessPiece {
     }
 
 }
+

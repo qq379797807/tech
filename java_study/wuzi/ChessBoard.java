@@ -1,8 +1,10 @@
 package wuzi;
 
-import java.net.spi.InetAddressResolver;
+
 import java.util.ArrayList;
-import java.util.HashSet;
+
+import wuzi.piece.ChessPiece;
+
 
 public class ChessBoard {
 
@@ -28,35 +30,40 @@ public class ChessBoard {
 
         System.out.println(this.boardCellGrid);
 
+        this.check();
     }
 
+    public void run(ChessPiece cp ,ArrayList<Integer> arr){
+        this.run(cp, arr.get(0),arr.get(1));
+    }
 
     /**
      * 
      * @return 0 没人赢,1 黑赢,2 白赢
      */
-    public int check() {
+    private void check() {
 
         for (int x = 0; x < this.boardCellGrid.size(); x++) {
 
             ArrayList<ChessPiece> row = this.boardCellGrid.get(x);
 
-            for (int i = 0; i < row.size()-2; i++) {
+            for (int i = 0; i < row.size() - 2; i++) {
                 ChessPiece c1 = row.get(i);
                 ChessPiece c2 = row.get(i + 1);
                 ChessPiece c3 = row.get(i + 2);
 
                 if (c1 != null && c2 != null && c3 != null) {
                     if (c1.type == c2.type && c1.type == c3.type) {
-                        return c1.type;
+                        if (c1.type == 1) {
+                            System.out.println("黑赢");
+                        } else if (c1.type == 2) {
+                            System.out.println("白赢");
+                        }
                     }
                 }
             }
         }
 
-        return 0;
-
     }
-
 
 }
