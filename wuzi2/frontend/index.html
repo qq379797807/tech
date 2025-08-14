@@ -45,6 +45,8 @@
         <option value="white">白色</option>
     </select>
 
+    <button onclick="_getBoardState()">刷新棋盘</button>
+
     <div id="board">
         <div class="row">
             <div id="1-1" class="cell"></div>
@@ -121,6 +123,8 @@
     <script>
         const cells = document.getElementsByClassName('cell')
 
+        var hostname = window.location.hostname;
+
         for (const cell of cells) {
             // 自动插入十字线
             const h = document.createElement('div')
@@ -131,11 +135,16 @@
             cell.appendChild(v)
 
             cell.addEventListener('click', (e) => {
-                _addPiece(e.currentTarget)
+
+                const color = document.getElementById('piece-color').value
+
+                _addPiece(e.currentTarget, color)
+                _sendToBack(cell.id, color)
             })
         }
 
-        function _addPiece(cell) {
+
+        function _addPiece(cell, color) {
             // 检查是否已有棋子
             if (!cell.querySelector('.piece')) {
                 const piece = document.createElement('div')
@@ -143,20 +152,21 @@
                 piece.style.width = '30px'
                 piece.style.height = '30px'
                 piece.style.borderRadius = '15px'
-                piece.style.backgroundColor = document.getElementById('piece-color').value
+                piece.style.backgroundColor = color
                 piece.style.position = 'absolute'
                 piece.style.left = '50%'
                 piece.style.top = '50%'
                 piece.style.transform = 'translate(-50%, -50%)'
                 cell.appendChild(piece)
-
-                _sendToBack(cell.id, piece.style.backgroundColor)
             }
         }
 
         function _sendToBack(cellId, color) {
+
+
+
             // 发送到后面
-            fetch('http://localhost:8000/api/luozi', {
+            fetch('http://'+hostname+':8000/api/luozi', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -177,20 +187,49 @@
 
 
         function _checkWin(result) {
-           if(result===1)
-            {
+            if (result === 1) {
                 alert('黑棋胜利！');
             }
-            else if(result===2)
-            {
+            else if (result === 2) {
                 alert('白棋胜利！');
             }
-            else if(result===3)
-            {
+            else if (result === 3) {
                 alert('平局！');
             }
         }
 
+
+        setInterval(() => {
+            _getBoardState()
+        }, 1000)
+
+        function _getBoardState() {
+            fetch(`http://${hostname}:8000/api/state`)
+                .then(response => response.json())
+                .then(data => {
+
+                    console.log(45454545,data);
+                    
+
+                    for (const luozi of data) {
+                        const cell = document.getElementById(luozi.cellId);
+                        if (cell) {
+                            // 清除旧棋子
+                            const oldPiece = cell.querySelector('.piece');
+                            if (oldPiece) {
+                                cell.removeChild(oldPiece);
+                            }
+
+                            // 添加新棋子
+                            _addPiece(cell, luozi.color);
+
+                        }
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
     </script>
 
 </body>

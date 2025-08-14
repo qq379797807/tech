@@ -1,7 +1,6 @@
 package com.example;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
@@ -24,6 +23,7 @@ public class App {
 
         // 设置路由和处理程序
         server.createContext("/api/luozi", new RootHandler());
+        server.createContext("/api/state", new StateHandler());
 
         // 启动服务器
         server.setExecutor(null); // 使用默认执行器
@@ -72,30 +72,22 @@ public class App {
 
             int checkResult = App.cb.run(lz.piece, lz.row, lz.column);
 
-            try {
-                // 这里可以处理 json 内容
-                String response = "{\"result\": " + checkResult + "}";
+            // 这里可以处理 json 内容
+            String response = "{\"result\": " + checkResult + "}";
 
-                // 设置正确的字符编码
-                exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
-                sendResponse(exchange, response);
+            // 设置正确的字符编码
+            exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
+            sendResponse(exchange, response);
 
-            } catch (Exception e) {
-                System.err.println("处理请求时发生错误: " + e.getMessage());
-                e.printStackTrace();
-                String errorResponse = "{\"error\": \"服务器内部错误\"}";
-                exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
-                sendResponse(exchange, errorResponse, 500);
-            }
         }
     }
 
     // 通用响应发送方法 - 修复乱码的核心
-    private static void sendResponse(HttpExchange exchange, String response) throws IOException {
+    public static void sendResponse(HttpExchange exchange, String response) throws IOException {
         sendResponse(exchange, response, 200);
     }
 
-    private static void sendResponse(HttpExchange exchange, String response, int statusCode) throws IOException {
+    public static void sendResponse(HttpExchange exchange, String response, int statusCode) throws IOException {
         // 使用 UTF-8 编码转换字符串为字节
         byte[] responseBytes = response.getBytes(StandardCharsets.UTF_8);
 

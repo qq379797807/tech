@@ -12,12 +12,12 @@ public class Luozi {
     
     ChessPiece piece;// 1 for black, 2 for white
     
-    public Luozi(String cellId, String color) {
+    public Luozi(int row,int coulnm, int color) {
         
-        this.row = Integer.parseInt(cellId.split("_")[0]);
-        this.column = Integer.parseInt(cellId.split("_")[1]);
+        this.row = row;
+        this.column = coulnm;
         // this.color = "black".equals(color) ? 1 : 2;
-        this.piece = "black".equals(color)? new ChessPieceBlack() : new ChessPieceWhite();
+        this.piece = color==1? new ChessPieceBlack() : new ChessPieceWhite();
 
     }
 

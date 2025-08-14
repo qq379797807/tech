@@ -10,6 +10,25 @@ public class ChessBoard {
 
     ArrayList<ArrayList<ChessPiece>> boardCellGrid = new ArrayList<ArrayList<ChessPiece>>();
 
+
+    public ArrayList<Luozi> getState() {
+    
+        ArrayList<Luozi> state = new ArrayList<Luozi>();
+
+        for (int i = 0; i < this.boardCellGrid.size(); i++) {
+            ArrayList<ChessPiece> row = this.boardCellGrid.get(i);
+            for (int j = 0; j < row.size(); j++) {
+                ChessPiece piece = row.get(j);
+                if (piece != null) {
+                    state.add(new Luozi(i,j, piece.type ));
+                }
+            }
+        }
+
+        return state;
+    }
+
+
     public ChessBoard() {
         for (int i = 0; i < 5; i++) {
             ArrayList<ChessPiece> row = new ArrayList<ChessPiece>();
