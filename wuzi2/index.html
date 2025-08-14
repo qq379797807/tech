@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .row {
+            display: flex;
+        }
+
+        .cell {
+            width: 50px;
+            height: 50px;
+            background-color: aquamarine;
+            position: relative;
+            /* border: 1px solid black; */
+        }
+        .cross-h {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            height: 2px;
+            background: #333;
+            transform: translateY(-50%);
+        }
+        .cross-v {
+            position: absolute;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: #333;
+            transform: translateX(-50%);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="row">
+        <div id="1-1" class="cell"></div>
+        <div id="1-2" class="cell"></div>
+        <div id="1-3" class="cell"></div>
+        <div id="1-4" class="cell"></div>
+        <div id="1-5" class="cell"></div>
+        <div id="1-6" class="cell"></div>
+        <div id="1-7" class="cell"></div>
+    </div>
+
+    <div class="row">
+        <div id="2-1" class="cell"></div>
+        <div id="2-2" class="cell"></div>
+        <div id="2-3" class="cell"></div>
+        <div id="2-4" class="cell"></div>
+        <div id="2-5" class="cell"></div>
+        <div id="2-6" class="cell"></div>
+        <div id="2-7" class="cell"></div>
+    </div>
+
+    <div class="row">
+        <div id="3-1" class="cell"></div>
+        <div id="3-2" class="cell"></div>
+        <div id="3-3" class="cell"></div>
+        <div id="3-4" class="cell"></div>
+        <div id="3-5" class="cell"></div>
+        <div id="3-6" class="cell"></div>
+        <div id="3-7" class="cell"></div>
+    </div>
+
+    <div class="row">
+        <div id="4-1" class="cell"></div>
+        <div id="4-2" class="cell"></div>
+        <div id="4-3" class="cell"></div>
+        <div id="4-4" class="cell"></div>
+        <div id="4-5" class="cell"></div>
+        <div id="4-6" class="cell"></div>
+        <div id="4-7" class="cell"></div>
+    </div>
+
+    <div class="row">
+        <div id="5-1" class="cell"></div>
+        <div id="5-2" class="cell"></div>
+        <div id="5-3" class="cell"></div>
+        <div id="5-4" class="cell"></div>
+        <div id="5-5" class="cell"></div>
+        <div id="5-6" class="cell"></div>
+        <div id="5-7" class="cell"></div>
+    </div>
+
+    <div class="row">
+        <div id="6-1" class="cell"></div>
+        <div id="6-2" class="cell"></div>
+        <div id="6-3" class="cell"></div>
+        <div id="6-4" class="cell"></div>
+        <div id="6-5" class="cell"></div>
+        <div id="6-6" class="cell"></div>
+        <div id="6-7" class="cell"></div>
+    </div>
+
+    <div class="row">
+        <div id="7-1" class="cell"></div>
+        <div id="7-2" class="cell"></div>
+        <div id="7-3" class="cell"></div>
+        <div id="7-4" class="cell"></div>
+        <div id="7-5" class="cell"></div>
+        <div id="7-6" class="cell"></div>
+        <div id="7-7" class="cell"></div>
+    </div>
+
+    <script>
+        const cells = document.getElementsByClassName('cell')
+
+        for (const cell of cells) {
+            // 自动插入十字线
+            const h = document.createElement('div')
+            h.className = 'cross-h'
+            const v = document.createElement('div')
+            v.className = 'cross-v'
+            cell.appendChild(h)
+            cell.appendChild(v)
+
+            cell.addEventListener('click', (e) => {
+                _addPiece(e.target)
+            })
+        }
+
+        function _addPiece(cell) {
+            // 检查是否已有棋子
+            if (!cell.querySelector('.piece')) {
+                const piece = document.createElement('div')
+                piece.className = 'piece'
+                piece.style.width = '30px'
+                piece.style.height = '30px'
+                piece.style.borderRadius = '15px'
+                piece.style.backgroundColor = 'black'
+                piece.style.position = 'absolute'
+                piece.style.left = '50%'
+                piece.style.top = '50%'
+                piece.style.transform = 'translate(-50%, -50%)'
+                cell.appendChild(piece)
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
