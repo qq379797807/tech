@@ -149,7 +149,23 @@
                 piece.style.top = '50%'
                 piece.style.transform = 'translate(-50%, -50%)'
                 cell.appendChild(piece)
+
+                _sendToBack(cell.id, piece.style.backgroundColor)
             }
+        }
+
+        function _sendToBack(cellId, color) {
+            // 发送到后面
+            fetch('http://localhost:8000/api/luozi', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    cellId: cellId,
+                    color: color
+                })
+            })
         }
 
     </script>
