@@ -166,6 +166,29 @@
                     color: color
                 })
             })
+                .then(response => response.json())
+                .then(data => {
+                    _checkWin(data.result);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+
+        function _checkWin(result) {
+           if(result===1)
+            {
+                alert('黑棋胜利！');
+            }
+            else if(result===2)
+            {
+                alert('白棋胜利！');
+            }
+            else if(result===3)
+            {
+                alert('平局！');
+            }
         }
 
     </script>

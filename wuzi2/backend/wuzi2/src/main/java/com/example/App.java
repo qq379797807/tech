@@ -66,13 +66,20 @@ public class App {
 
             System.out.println("收到请求体: " + json);
 
+            Luozi lz = new Luozi(json);
+
+            // System.out.println(lz);
+
+            int checkResult = App.cb.run(lz.piece, lz.row, lz.column);
+
             try {
                 // 这里可以处理 json 内容
-                String response = "{\"received\": " + json + ", \"status\": \"success\"}";
+                String response = "{\"result\": " + checkResult + "}";
 
                 // 设置正确的字符编码
                 exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
                 sendResponse(exchange, response);
+
             } catch (Exception e) {
                 System.err.println("处理请求时发生错误: " + e.getMessage());
                 e.printStackTrace();
