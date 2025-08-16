@@ -1,15 +1,16 @@
 <script setup>
 
 import axios from 'axios';
-import { ref } from 'vue';
-
+import { onMounted, ref } from 'vue';
+import { ElNotification } from 'element-plus'
 
 const BOARD_SIZE = 7;
 const rows = ref(Array.from({ length: BOARD_SIZE }, (_, i) => i));
 // 创建一个二维数组来存储棋盘状态，0表示空，1表示黑子，2表示白子
 const boardState = ref(Array(7).fill(0).map(() => Array(7).fill(0)));
 // 添加当前玩家状态
-const currentPlayer = ref(1);
+const currentPlayer = ref(0);
+
 
 
 function luozi(i, j) {
@@ -52,6 +53,75 @@ function selectChange(value) {
   console.log(value)
 }
 
+function lgoin() {
+  console.log('登录');
+  axios.post(
+    'http://' + hostname + ':8000/api/login')
+    .then(response => {
+      console.log('登录成功:', response.data);
+
+      if (response.data === -1) {
+        notifi()
+        return;
+      }
+
+      currentPlayer.value = response.data; // 假设服务器返回当前玩家
+
+      saveLoginState(response.data);
+
+
+    })
+    .catch(error => {
+      console.error('登录失败:', error);
+    });
+}
+
+
+function notifi() {
+  // 创建一个新的通知
+
+  ElNotification({
+    title: 'Error',
+    message: '登录失败，人数已满',
+    type: 'error',
+  })
+
+}
+
+
+function saveLoginState(player) {
+  localStorage.setItem('currentPlayer', player);
+}
+
+
+
+
+function logout() {
+  const player = currentPlayer.value;
+  
+  axios.get(`http://${hostname}:8000/api/logout`, {
+    params: {
+      playerId: player
+    }
+  })
+  .then(response => {
+    console.log('登出成功:', response.data);
+    currentPlayer.value = 0;
+    localStorage.removeItem('currentPlayer');
+  })
+  .catch(error => {
+    console.error('登出失败:', error);
+  });
+}
+
+  onMounted(() => {
+    // 页面加载时检查是否有登录状态
+    const savedPlayer = localStorage.getItem('currentPlayer');
+    if (savedPlayer) {
+      currentPlayer.value = parseInt(savedPlayer);
+    }
+  });
+
 
 </script>
 
@@ -59,19 +129,28 @@ function selectChange(value) {
 
 
   <h1>五子棋</h1>
+
+  <el-button v-if="currentPlayer === 0" type="primary" @click="lgoin">登录</el-button>
+  <el-result v-else icon="primary" :title="currentPlayer == 1 ? '黑子' : '白子'">
+    <template #extra>
+      <el-button type="primary" @click="logout">登出</el-button>
+    </template>
+  </el-result>
+
   <!-- <select v-model="currentPlayer">
   <option value="1">黑子</option>
   <option value="2">白子</option>
 </select> -->
 
-  <div>
+  <!-- <el-radio-group v-model="radio1" @change="selectChange"> 可以不写括号，写的话里面要加$event -->
+  <!-- <div>
     <el-radio-group v-model="currentPlayer" @change="selectChange($event)">
-      <!-- <el-radio-group v-model="radio1" @change="selectChange"> 可以不写括号，写的话里面要加$event -->
+     
       <el-radio-button :value="1" label="黑子"></el-radio-button>
       <el-radio-button :value="2" label="白子"></el-radio-button>
 
     </el-radio-group>
-  </div>
+  </div> -->
 
 
   <div id="board" class="board">

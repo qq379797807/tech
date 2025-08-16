@@ -47,7 +47,17 @@ public class ChessController {
     public ArrayList<Luozi> getState() {
         return this.chessService.getState();
     }
-    
+
+
+     @PostMapping("/login")
+    public int login() {
+        return this.chessService.login();
+    }
+
+     @GetMapping("/logout")
+    public boolean logou(@RequestParam int playerId) {
+        return this.chessService.logout(playerId);
+    }
 
 
 }

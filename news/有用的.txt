@@ -20,3 +20,26 @@ everything
 
 浏览器插件
 global speed 统一控制所有视频网站的速度
+
+
+AI学习 
+吴恩达 《深度学习》《机器学习》
+
+
+3d
+网页 three.js 
+桌面  UE C++   /  UNITY  C#
+
+
+Android 
+android studio
+
+ios
+必须苹果电脑，xcode
+
+
+当下流行语言
+go  谷歌，一般替代java，做网站后台
+rust 超级难，超级快，超级安全，一般就做超高性能计算，用来代替C语言
+
+
